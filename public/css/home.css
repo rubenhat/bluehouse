@@ -1,0 +1,40 @@
+/* Mendefinisikan variabel CSS untuk warna */
+:root {
+    --dark-overlay-color: rgba(30, 41, 59, 0.75); /* Slate 900 dengan 75% opacity */
+}
+
+/* Styling untuk Hero Section (Full Screen Background) */
+.hero-section {
+    height: 100vh;
+    width: 100vw;
+    /* Ganti URL placeholder ini dengan URL gambar Anda yang sebenarnya */
+    background-image: url('https://placehold.co/1920x1080/0d131f/ffffff?text=Blue+House+Farm+Background');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Mencegah elemen lain keluar */
+}
+
+/* Styling untuk Overlay Biru Gelap */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--dark-overlay-color);
+    z-index: 10;
+    /* Efek blur untuk meniru tampilan kaca pada gambar asli (opsional) */
+    backdrop-filter: blur(2px);
+}
+
+/* Styling untuk Konten di atas overlay */
+.hero-content {
+    z-index: 20;
+    text-align: left;
+    padding: 4rem 1.5rem;
+    max-width: 56rem; /* Konten tidak terlalu melebar pada layar besar */
+}
