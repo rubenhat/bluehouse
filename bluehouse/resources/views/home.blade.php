@@ -5,7 +5,7 @@
 @section('content')
 <section 
     class="relative flex items-center justify-start h-screen bg-cover bg-center text-white" 
-    style="background-image: url({{ asset('images/herobg.png') }});"
+     style="background-image: url('{{ asset('images/herobg.png') }}');"
 >
     <!-- Overlay biru transparan -->
     <div class="absolute inset-0 bg-blue-900 bg-opacity-60"></div>
@@ -19,9 +19,10 @@
             Nikmati pengalaman kuliner terbaik dengan menu pilihan yang lezat dan suasana yang nyaman
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
-            <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:scale-105">
-                Lihat Menu
-            </button>
+            <a href="{{ route('menu.index') }}"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:scale-105 inline-block">
+                    Lihat Menu
+            </a>
             <button class="bg-white text-blue-900 font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105">
                 Pesan Sekarang
             </button>

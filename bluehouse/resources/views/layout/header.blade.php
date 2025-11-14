@@ -37,7 +37,8 @@
                 <i data-lucide="coffee" class="w-6 h-6"></i>
             </a>
             <!-- Ikon Keranjang Belanja -->
-            <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-150 p-2 rounded-full hover:bg-gray-100" title="Keranjang Belanja">
+            <a href="{{ route('cart.index') }}"
+                 class="text-gray-600 hover:text-blue-600 transition duration-150 p-2 rounded-full hover:bg-gray-100" title="Keranjang Belanja">
                 <i data-lucide="shopping-cart" class="w-6 h-6"></i>
             </a>
             
