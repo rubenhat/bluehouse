@@ -4,10 +4,21 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AdminAuthController;
 
 Route::get('/', function () {
     return view('home');
 });
+
+//ADMIN
+Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+
+// halaman dashboard admin (hanya setelah login)
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware('admin')->name('admin.dashboard');
+
 
 //MENU
 Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
