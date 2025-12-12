@@ -1,0 +1,1 @@
+<?php /**PATH C:\Users\Muhammad Kahfi\Downloads\Joki Doy\joyko\jokidoy\resources\views/layout/footer.blade.php ENDPATH**/ ?>
