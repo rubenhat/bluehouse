@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\MenuController as AdminMenuController;
 use App\Http\Controllers\Admin\LaporanController; // Tambahkan ini
+use App\Http\Controllers\Admin\FilterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,9 @@ Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])-
 // Admin Authentication
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
+    ->name('admin.logout');
+
 
 // Admin routes with middleware (jika ada middleware admin)
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -65,6 +69,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/export', [LaporanController::class, 'exportPDF'])->name('laporan.export');
+
+    Route::get('/filter', [FilterController::class, 'index'])->name('filter.index');
 });
 
 

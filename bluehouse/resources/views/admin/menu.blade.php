@@ -60,25 +60,7 @@
             @endif
 
             <!-- Status Badge -->
-            @if($menu->category === 'coffee')
-                <div class="absolute top-3 left-3">
-                    <span class="bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                        Best Seller
-                    </span>
-                </div>
-            @elseif($menu->category === 'food')
-                <div class="absolute top-3 left-3">
-                    <span class="bg-yellow-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                        Best Seller
-                    </span>
-                </div>
-            @else
-                <div class="absolute top-3 left-3">
-                    <span class="bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                        Promo
-                    </span>
-                </div>
-            @endif
+            
         </div>
 
         <!-- Content -->

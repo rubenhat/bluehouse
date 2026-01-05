@@ -28,4 +28,17 @@ class AdminAuthController extends Controller
 
         return back()->with('error', 'Email atau password salah!');
     }
+
+    public function logout(Request $request)
+{
+    // Hapus session login admin
+    $request->session()->forget('admin_logged_in');
+
+    // Optional: hapus semua session
+    // $request->session()->flush();
+
+    return redirect()->route('admin.login')
+        ->with('success', 'Anda berhasil logout');
+}
+
 }

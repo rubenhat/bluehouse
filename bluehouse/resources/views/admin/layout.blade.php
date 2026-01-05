@@ -51,7 +51,13 @@
                 <a href="{{ route('admin.laporan.index') }}"
                    class="flex items-center p-3 rounded-lg transition-colors {{ request()->routeIs('admin.laporan.*') ? 'nav-active' : 'text-gray-700 hover:bg-gray-100' }}">
                     <i class="fas fa-chart-line w-5"></i>
-                    <span class="ml-3">Laporan Transaksi</span>
+                    <span class="ml-3">Dashboard Penjualan</span>
+                </a>
+
+                <a href="{{ route('admin.filter.index') }}"
+                   class="flex items-center p-3 rounded-lg transition-colors {{ request()->routeIs('admin.filter.*') ? 'nav-active' : 'text-gray-700 hover:bg-gray-100' }}">
+                    <i class="fas fa-chart-line w-5"></i>
+                    <span class="ml-3">Filter Laporan</span>
                 </a>
 
             </nav>
@@ -66,18 +72,15 @@
 
                 <div class="flex items-center space-x-6 text-gray-600">
 
-                    <button class="text-xl hover:text-gray-800 transition-colors">
-                        <i class="fas fa-moon"></i>
-                    </button>
+                    <form action="{{ route('admin.logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit"
+                            class="flex items-center hover:text-gray-800 transition-colors bg-transparent border-none p-0">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="ml-2">Keluar</span>
+                        </button>
+                    </form>
 
-                    <button class="text-xl hover:text-gray-800 transition-colors">
-                        <i class="fas fa-bell"></i>
-                    </button>
-
-                    <a href="/logout" class="flex items-center hover:text-gray-800 transition-colors">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span class="ml-2">Keluar</span>
-                    </a>
 
                 </div>
             </div>

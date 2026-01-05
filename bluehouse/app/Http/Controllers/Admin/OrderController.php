@@ -20,6 +20,7 @@ class OrderController extends Controller
             'confirmed' => Order::where('status', 'confirmed')->count(),
             'completed' => Order::where('status', 'completed')->count(),
             'cancelled' => Order::where('status', 'cancelled')->count(),
+            //tambahkan paid
         ];
 
         // Get orders based on status filter
