@@ -57,7 +57,7 @@
                 <a href="{{ route('admin.filter.index') }}"
                    class="flex items-center p-3 rounded-lg transition-colors {{ request()->routeIs('admin.filter.*') ? 'nav-active' : 'text-gray-700 hover:bg-gray-100' }}">
                     <i class="fas fa-chart-line w-5"></i>
-                    <span class="ml-3">Filter Laporan</span>
+                    <span class="ml-3">Laporan Penjualan</span>
                 </a>
 
             </nav>

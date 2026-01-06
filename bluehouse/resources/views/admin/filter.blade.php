@@ -6,17 +6,17 @@
 <div class="p-6">
     <!-- Header -->
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 mb-2">Dashboard</h1>
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">Penjualan</h1>
         <p class="text-gray-600">Analisa penjualan</p>
     </div>
 
     <!-- Filter Card -->
-    <div class="bg-white rounded-lg shadow-sm border p-6 mb-6">
+    {{-- <div class="bg-white rounded-lg shadow-sm border p-6 mb-6">
         <div class="flex items-center mb-4">
             <i class="fas fa-filter text-gray-500 mr-2"></i>
             <h2 class="text-lg font-semibold">Filter Periode</h2>
         </div>
-
+         --}}
         {{--  <form action="{{ route('admin.laporan.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>

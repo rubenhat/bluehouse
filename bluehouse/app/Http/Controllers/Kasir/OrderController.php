@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
+        public function index(Request $request)
     {
         $status = $request->get('status', 'all');
 
@@ -33,7 +33,7 @@ class OrderController extends Controller
 
         $orders = $query->paginate(10);
 
-        return view('admin.pesanan', compact('orders', 'status', 'statistics'));
+        return view('kasir.pesanan', compact('orders', 'status', 'statistics'));
     }
 
     public function updateStatus(Request $request, $orderId)
@@ -70,7 +70,7 @@ class OrderController extends Controller
                 'pending' => 'Pesanan dikembalikan ke status pending!'
             ];
 
-            return redirect()->route('admin.pesanan.index', ['status' => $request->get('current_status', 'all')])
+            return redirect()->route('kasir.pesanan.index', ['status' => $request->get('current_status', 'all')])
                             ->with('success', $messages[$newStatus] ?? 'Status pesanan berhasil diperbarui!');
 
         } catch (\Exception $e) {
@@ -86,31 +86,17 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->load('orderItems');
-        return view('admin.orders.show', compact('order'));
+        return view('kasir.orders.show', compact('order'));
     }
 
     public function destroy(Order $order)
     {
         try {
             $order->delete();
-            return redirect()->route('admin.pesanan.index')
+            return redirect()->route('kasir.pesanan.index')
                             ->with('success', 'Pesanan berhasil dihapus!');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus pesanan!');
         }
     }
-
-    public function markAsPaid(Order $order)
-{
-    if ($order->payment_status === 'paid') {
-        return back()->with('info', 'Pesanan sudah dibayar');
-    }
-
-    $order->update([
-        'payment_status' => 'paid'
-    ]);
-
-    return back()->with('success', 'Status pembayaran berhasil diperbarui');
-}
-
 }

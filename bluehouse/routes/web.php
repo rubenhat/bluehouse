@@ -4,9 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\KasirAuthController;
 use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Kasir\DashboardController as KasirDashboard;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Kasir\OrderController as KasirOrderController;
 use App\Http\Controllers\Admin\MenuController as AdminMenuController;
 use App\Http\Controllers\Admin\LaporanController; // Tambahkan ini
 use App\Http\Controllers\Admin\FilterController;
@@ -46,15 +49,35 @@ Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
     ->name('admin.logout');
 
+// Kasir Authentication
+Route::get('/kasir/login', [KasirAuthController::class, 'showLogin'])->name('kasir.login');
+Route::post('/kasir/login', [KasirAuthController::class, 'login'])->name('kasir.login.submit');
+Route::post('/kasir/logout', [KasirAuthController::class, 'logout'])
+    ->name('kasir.logout');
+
+// Kasir routes with middleware (jika ada middleware kasir)
+Route::prefix('kasir')->name('kasir.')->group(function () {
+    Route::get('/pesanan', [KasirDashboard::class, 'index'])->name('pesanan');
+
+
+    //Order kasir
+    Route::get('/pesanan', [KasirOrderController::class, 'index'])->name('pesanan.index');
+    Route::get('/pesanan/{id}', [KasirOrderController::class, 'show'])->name('pesanan.show');
+    Route::patch('/orders/{id}/status', [KasirOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::delete('/orders/{order}', [KasirOrderController::class, 'destroy'])->name('orders.destroy');
+});
 
 // Admin routes with middleware (jika ada middleware admin)
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
 
     // Order Management Routes
     Route::get('/pesanan', [AdminOrderController::class, 'index'])->name('pesanan.index');
     Route::get('/pesanan/{id}', [AdminOrderController::class, 'show'])->name('pesanan.show');
     Route::patch('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    // ✅ route khusus untuk PAID (payment_status)
+    Route::patch('/orders/{order}/payment_status', [AdminOrderController::class, 'markAsPaid'])
+        ->name('orders.markAsPaid');
     Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
 
     // Menu Management Routes

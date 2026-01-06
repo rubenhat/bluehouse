@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('kasir.layout')
 
 @section('title', 'Manajemen Pesanan')
 
@@ -7,37 +7,7 @@
     <main class="flex-1 p-10 bg-gray-50 min-h-screen">
 
         <h1 class="text-2xl font-semibold mb-1">Manajemen Pesanan</h1>
-        <p class="text-gray-600 mb-6">Kelola dan pantau semua pesanan</p>
-
-        <!-- TAB FILTER -->
-        <div class="bg-white rounded-xl p-6 shadow-sm mb-6">
-            <div class="flex space-x-6 border-b">
-                <a href="{{ route('admin.pesanan.index') }}"
-                   class="pb-3 px-1 {{ $status === 'all' ? 'border-b-2 border-blue-600 text-blue-600 font-semibold' : 'text-gray-500 hover:text-gray-700' }}">
-                    Semua ({{ $statistics['all'] ?? 0 }})
-                </a>
-                <a href="{{ route('admin.pesanan.index', ['status' => 'pending']) }}"
-                   class="pb-3 px-1 {{ $status === 'pending' ? 'border-b-2 border-yellow-500 text-yellow-600 font-semibold' : 'text-gray-500 hover:text-gray-700' }}">
-                    Pending ({{ $statistics['pending'] ?? 0 }})
-                </a>
-                <a href="{{ route('admin.pesanan.index', ['status' => 'confirmed']) }}"
-                   class="pb-3 px-1 {{ $status === 'confirmed' ? 'border-b-2 border-blue-500 text-blue-600 font-semibold' : 'text-gray-500 hover:text-gray-700' }}">
-                    Dikonfirmasi ({{ $statistics['confirmed'] ?? 0 }})
-                </a>
-                <a href="{{ route('admin.pesanan.index', ['status' => 'paid']) }}"
-                   class="pb-3 px-1 {{ $status === 'paid' ? 'border-b-2 border-blue-500 text-blue-600 font-semibold' : 'text-gray-500 hover:text-gray-700' }}">
-                    Dibayar ({{ $statistics['paid'] ?? 0 }})
-                </a>
-                <a href="{{ route('admin.pesanan.index', ['status' => 'completed']) }}"
-                   class="pb-3 px-1 {{ $status === 'completed' ? 'border-b-2 border-green-500 text-green-600 font-semibold' : 'text-gray-500 hover:text-gray-700' }}">
-                    Selesai ({{ $statistics['completed'] ?? 0 }})
-                </a>
-                <a href="{{ route('admin.pesanan.index', ['status' => 'cancelled']) }}"
-                   class="pb-3 px-1 {{ $status === 'cancelled' ? 'border-b-2 border-red-500 text-red-600 font-semibold' : 'text-gray-500 hover:text-gray-700' }}">
-                    Dibatalkan ({{ $statistics['cancelled'] ?? 0 }})
-                </a>
-            </div>
-        </div>
+        <p class="text-gray-600 mb-6">Kelola dan masak pesanan</p>
 
         <!-- DAFTAR PESANAN -->
         <div class="space-y-4">
@@ -57,20 +27,7 @@
                     </div>
 
                     <div class="text-right">
-                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-2
-                            @if($order->status === 'pending') bg-yellow-200 text-yellow-800
-                            @elseif($order->status === 'confirmed') bg-blue-200 text-blue-800
-                            @elseif($order->status === 'completed') bg-green-200 text-green-800
-                            @elseif($order->status === 'paid') bg-green-200 text-green-800
-                            @elseif($order->status === 'cancelled') bg-red-200 text-red-800
-                            @endif">
-                            @if($order->status === 'pending') Pending
-                            @elseif($order->status === 'confirmed') Dikonfirmasi
-                            @elseif($order->status === 'paid') Dibayar
-                            @elseif($order->status === 'completed') Selesai
-                            @elseif($order->status === 'cancelled') Dibatalkan
-                            @endif
-                        </span>
+
                         <!-- TOGGLE DETAIL BUTTON -->
                         <div>
                             <button onclick="toggleDetail('order-{{ $order->id }}')"
@@ -170,22 +127,9 @@
                     <!-- ACTION BUTTONS IN DETAIL -->
                     <div class="flex space-x-3 mb-4">
 
-                        {{-- BUTTON PAID (TIDAK GANGGU STATUS) --}}
-                        @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
-                            <form action="{{ route('admin.orders.markAsPaid', $order->id) }}" method="POST" class="flex-1">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit"
-                                        class="w-full bg-yellow-500 text-white py-3 rounded-lg hover:bg-yellow-600 font-semibold"
-                                        onclick="return confirm('Tandai pesanan ini sebagai SUDAH DIBAYAR? Order ID: {{ $order->id }}')">
-                                    💰 Bayar Pesanan
-                                </button>
-                            </form>
-                        @endif
-
                         @if($order->status === 'pending')
                             <!-- Konfirmasi -->
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="flex-1">
+                            <form action="{{ route('kasir.orders.updateStatus', $order->id) }}" method="POST" class="flex-1">
                                 @csrf
                                 @method('PATCH')
                                 <input type="hidden" name="status" value="confirmed">
@@ -198,7 +142,7 @@
                             </form>
 
                             <!-- Batalkan -->
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="flex-1">
+                            <form action="{{ route('kasir.orders.updateStatus', $order->id) }}" method="POST" class="flex-1">
                                 @csrf
                                 @method('PATCH')
                                 <input type="hidden" name="status" value="cancelled">
@@ -206,32 +150,6 @@
                                 <button type="submit"
                                         class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 font-semibold"
                                         onclick="return confirm('Batalkan pesanan ini? Order ID: {{ $order->id }}')">
-                                    ❌ Batalkan Pesanan
-                                </button>
-                            </form>
-
-                        @elseif($order->status === 'confirmed')
-                            <!-- Selesaikan -->
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="flex-1">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status" value="completed">
-                                <input type="hidden" name="current_status" value="{{ $status }}">
-                                <button type="submit"
-                                        class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-semibold"
-                                        onclick="return confirm('Selesaikan pesanan ini? Order ID: {{ $order->id }}')">
-                                    ✅ Selesaikan Pesanan
-                                </button>
-                            </form>
-
-                            <!-- Batalkan -->
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="flex-1">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status" value="cancelled">
-                                <input type="hidden" name="current_status" value="{{ $status }}">
-                                <button type="submit"
-                                        class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 font-semibold">
                                     ❌ Batalkan Pesanan
                                 </button>
                             </form>
@@ -246,8 +164,9 @@
                                 ❌ Pesanan Dibatalkan
                             </div>
                         @endif
-            
-                        <!-- WhatsApp Contact Button -->
+                    </div>
+
+                    <!-- WhatsApp Contact Button -->
                         <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $order->customer_phone) }}?text=Halo%20{{ urlencode($order->customer_name) }},%20terima%20kasih%20sudah%20memesan%20di%20Blue%20House%20Farm.%20Pesanan%20Anda%20dengan%20ID%20{{ $order->order_id }}%20sedang%20kami%20proses."
                            target="_blank"
                            class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 flex items-center justify-center">
@@ -256,7 +175,6 @@
                             </svg>
                             WhatsApp
                         </a>
-                    </div>
 
                 </div>
 
@@ -295,7 +213,7 @@
                     <div class="flex space-x-2">
                         <!-- QUICK ACTION BUTTONS (SMALL) -->
                         @if($order->status === 'pending')
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="inline">
+                            <form action="{{ route('kasir.orders.updateStatus', $order->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('PATCH')
                                 <input type="hidden" name="status" value="confirmed">
@@ -307,33 +225,7 @@
                                     ✓ Konfirmasi
                                 </button>
                             </form>
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status" value="cancelled">
-                                <input type="hidden" name="current_status" value="{{ $status }}">
-                                <button type="submit"
-                                        class="px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700"
-                                        onclick="return confirm('Yakin ingin membatalkan pesanan ini?')"
-                                        title="Batalkan Pesanan">
-                                    ❌
-                                </button>
-                            </form>
-
-                        @elseif($order->status === 'confirmed')
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status" value="completed">
-                                <input type="hidden" name="current_status" value="{{ $status }}">
-                                <button type="submit"
-                                        class="px-4 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700"
-                                        onclick="return confirm('Selesaikan pesanan ini?')"
-                                        title="Selesaikan Pesanan">
-                                    ✅ Selesai
-                                </button>
-                            </form>
-                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="inline">
+                            <form action="{{ route('kasir.orders.updateStatus', $order->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('PATCH')
                                 <input type="hidden" name="status" value="cancelled">
@@ -364,6 +256,7 @@
                            title="Chat WhatsApp">
                             💬
                         </a>
+
                     </div>
                 </div>
             </div>
