@@ -57,9 +57,7 @@ Route::post('/kasir/logout', [KasirAuthController::class, 'logout'])
 
 // Kasir routes with middleware (jika ada middleware kasir)
 Route::prefix('kasir')->name('kasir.')->group(function () {
-    Route::get('/pesanan', [KasirDashboard::class, 'index'])->name('pesanan');
-
-
+    
     //Order kasir
     Route::get('/pesanan', [KasirOrderController::class, 'index'])->name('pesanan.index');
     Route::get('/pesanan/{id}', [KasirOrderController::class, 'show'])->name('pesanan.show');

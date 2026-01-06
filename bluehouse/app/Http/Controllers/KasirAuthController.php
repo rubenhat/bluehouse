@@ -24,7 +24,7 @@ class KasirAuthController extends Controller
 
         if ($request->email === $this->kasirEmail && $request->password === $this->kasirPassword) {
             session(['kasir_logged_in' => true]);
-            return redirect()->route('kasir.pesanan');
+            return redirect()->route('kasir.pesanan.index');
         }
 
         return back()->with('error', 'Email atau password salah!');
